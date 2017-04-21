@@ -18,6 +18,16 @@
 		#app {
 			max-height: 100vw;
 		}
+		.checkbox{
+			max-width: 20px;
+			min-width: 20px;
+			max-height: 20px;
+			min-height: 20px;
+			border: 2px solid #555;
+			display: inline-block;
+		}
+
+		/**{	background: rgba(0,0,0,0.1); }*/
 	</style>
 	<script type="text/javascript" src="js/vue.min.js"></script>
 </head>
@@ -40,18 +50,21 @@
 					    </div>
 						</form>
 
-						<ul style="overflow-y: auto; max-height:500px;">
-							<li :class="{ 'completed' : task.completed }"
+						<span style="overflow-y: auto; max-height:500px; padding:5px;">
+							<div
 									v-for="task in tasks"
 									@click="toggle($index)"
 							>
-								<h4>
-								    <input type="checkbox" v-model="task.completed">
+										<span class="checkbox">
+											<span class="glyphicon glyphicon-ok text-success" v-if="task.completed"></span>
+										</span>
 										&nbsp;
-										{{ task.body }}
-								</h4>
-							</li>
-						</ul>
+										<span :class="{ 'completed' : task.completed }"> {{ task.body }} </span>
+										<span class="glyphicon glyphicon-remove text-danger pull-right" @click="remove($index)"></span>
+
+										<hr>
+							</div>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -84,6 +97,9 @@
 						"completed": false
 					});
 					this.task = '';
+				},
+				remove: function(index){
+					this.tasks.splice(index,1);
 				}
 			}
 		})
