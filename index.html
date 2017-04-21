@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue Todo List</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style>
+		.completed {
+			text-decoration: line-through;
+			color: #ddd;
+		}
+		ul {
+			list-style-type: none;
+		}
+		li {
+			cursor: pointer;
+		}
+		#app {
+			max-height: 100vw;
+		}
+	</style>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+</head>
+<body style="min-width: 227px;">
+	<div id="app" class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h2 class="panel-title">Todo list</h2>
+					</div>
+
+					<div class="panel-body">
+						<div class="input-group">
+				      <input type="text" class="form-control" placeholder="Add new task" v-model="task">
+				      <span class="input-group-btn">
+								<button class="btn btn-block" @click="add(task)"><span class="glyphicon glyphicon-plus"></span>Add</button>
+				      </span>
+				    </div>
+						<ul>
+							<li :class="{ 'completed' : task.completed }"
+									v-for="task in tasks"
+									@click="toggle($index)"
+							>
+								<h4>
+								    <input type="checkbox" v-model="task.completed">
+										&nbsp;
+										{{ task.body }}
+								</h4>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				tasks: [
+					{ "body" : "Task One", "completed": false },
+					{ "body" : "Task Two", "completed": false },
+					{ "body" : "Task Three", "completed": false },
+					{ "body" : "Task Four", "completed": false }
+				],
+				task: ''
+			},
+			computed: {
+
+			},
+			methods: {
+				toggle: function(index){
+					this.tasks[index].completed = !this.tasks[index].completed;
+				},
+				add: function(task){
+					this.tasks.push({
+						"body": task,
+						"completed": false
+					});
+					this.task = '';
+				}
+			}
+		})
+	</script>
+</body>
+</html>
