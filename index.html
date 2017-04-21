@@ -60,7 +60,21 @@
 						</form>
 
 						<div style="overflow-y: auto; max-height:500px; padding:5px;">
-							<div class="task" v-for="task in tasks" @click="toggle($index)" >
+							<div class="task" v-if="!task.completed" v-for="task in tasks" @click="toggle($index)" >
+									<div class="checkbox">
+										<span class="glyphicon glyphicon-ok" v-if="task.completed"></span>
+										<span v-else>&nbsp;</span>
+									</div>
+									<span :class="{ 'completed' : task.completed }"> &nbsp; {{ task.body }} </span>
+									<span class="glyphicon glyphicon-remove pull-right remove" @click="remove($index)"></span>
+
+									<hr style="margin:0">
+							</div>
+						</div>
+
+						<div class="completed-tasks" v-if="completed">
+							<p class="text-muted">Completed ({{completed}})</p>
+							<div class="task" v-if="task.completed" v-for="task in tasks" @click="toggle($index)" >
 									<div class="checkbox">
 										<span class="glyphicon glyphicon-ok" v-if="task.completed"></span>
 										<span v-else>&nbsp;</span>
@@ -103,7 +117,10 @@
 			},
 			computed: {
 				remaining: function(){
-					return this.tasks.length  - this.tasks.filter(function(task){
+					return this.tasks.length  - this.completed;
+				},
+				completed: function(){
+					return  this.tasks.filter(function(task){
 						return task.completed;
 					}).length;
 				}
