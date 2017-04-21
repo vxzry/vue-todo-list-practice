@@ -7,24 +7,32 @@
 	<style>
 		.completed {
 			text-decoration: line-through;
-			color: #ddd;
+			color: #777;
 		}
-		ul {
-			list-style-type: none;
-		}
-		li {
-			cursor: pointer;
-		}
-		#app {
-			max-height: 100vw;
-		}
-		.checkbox{
+		.checkbox {
 			max-width: 20px;
 			min-width: 20px;
 			max-height: 20px;
 			min-height: 20px;
 			border: 2px solid #555;
+			border-radius: 3px;
 			display: inline-block;
+		}
+		.checkbox, .task {
+			cursor: pointer;
+		}
+		.task {
+			padding: 0 5px;
+			border-radius: 5px;
+		}
+		.task:hover{
+			background: rgba(0, 0, 0, 0.1);
+		}
+		.remove {
+			padding-top: 10px;
+		}
+		.remove:hover{
+			color: #A60000;
 		}
 
 		/**{	background: rgba(0,0,0,0.1); }*/
@@ -50,23 +58,25 @@
 					    </div>
 						</form>
 
-						<span style="overflow-y: auto; max-height:500px; padding:5px;">
-							<div
-									v-for="task in tasks"
-									@click="toggle($index)"
-							>
-										<span class="checkbox">
-											<span class="glyphicon glyphicon-ok text-success" v-if="task.completed"></span>
-										</span>
-										&nbsp;
-										<span :class="{ 'completed' : task.completed }"> {{ task.body }} </span>
-										<span class="glyphicon glyphicon-remove text-danger pull-right" @click="remove($index)"></span>
+						<div v-if="tasks.length != 0" style="overflow-y: auto; max-height:500px; padding:5px;">
+							<div class="task" v-for="task in tasks" @click="toggle($index)" >
+									<div class="checkbox">
+										<span class="glyphicon glyphicon-ok" v-if="task.completed"></span>
+										<span v-else>&nbsp;</span>
+									</div>
+									<span :class="{ 'completed' : task.completed }"> &nbsp; {{ task.body }} </span>
+									<span class="glyphicon glyphicon-remove pull-right remove" @click="remove($index)"></span>
 
-										<hr>
+									<!-- <hr style="margin:0"> -->
 							</div>
-						</span>
-					</div>
-				</div>
+						</div>
+
+						<div v-else class="text-muted text-center">
+							<br>You have no task at this moment
+						</div>
+
+					</div>	<!-- panel-body  -->
+				</div>  <!-- panel  -->
 			</div>
 		</div>
 	</div>
