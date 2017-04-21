@@ -31,13 +31,16 @@
 					</div>
 
 					<div class="panel-body">
-						<div class="input-group">
-				      <input type="text" class="form-control" placeholder="Add new task" v-model="task">
-				      <span class="input-group-btn">
-								<button class="btn btn-block" @click="add(task)"><span class="glyphicon glyphicon-plus"></span>Add</button>
-				      </span>
-				    </div>
-						<ul>
+						<form class="form" action="index.html" method="post" @submit.prevent="add(task)">
+							<div class="input-group">
+					      <input type="text" class="form-control" placeholder="Add new task" v-model="task">
+					      <span class="input-group-btn">
+									<button class="btn btn-block"><span class="glyphicon glyphicon-plus"></span>Add</button>
+					      </span>
+					    </div>
+						</form>
+
+						<ul style="overflow-y: auto; max-height:500px;">
 							<li :class="{ 'completed' : task.completed }"
 									v-for="task in tasks"
 									@click="toggle($index)"
